@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title>.</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/yiom/sketchpad/master/scripts/sketchpad.js"></script> 
+    <script type="text/javascript">
+    <!--
+    var sketchpad = null;
+	$(window).resize(function() { initSketchpad(); });
+	$(window).load(function() { initSketchpad(); });
+
+	function initSketchpad() {
+
+		var $sp = $('#sketchpad');
+		var sp_width = $sp.width();
+		var sp_height = $sp.width()*$sp.attr('data-ratio');
+
+		if( sketchpad === null ) {
+			settings = {};
+			sp_width_prev = sp_width;
+		}
+		else {
+			settings = sketchpad.toObject();
+			sp_width_prev = $sp.attr('data-width-prev');
+		}
+		settings.element = '#canvas';
+		settings.width = sp_width;
+		settings.height = sp_height;
+		settings.color = '#e4042d';
+		settings.penSize = Math.ceil(sp_width / 250);
+
+		if(settings.strokes !== undefined) {
+			$.each(settings.strokes, function(index, value) {
+				settings.strokes[index].size = value.size * (sp_width/sp_width_prev);
+				$.each(value.lines, function(index2, value2) {	
+				  settings.strokes[index].lines[index2].start.x = value2.start.x * (sp_width/sp_width_prev);
+				  settings.strokes[index].lines[index2].start.y = value2.start.y * (sp_width/sp_width_prev);
+				  settings.strokes[index].lines[index2].end.x = value2.end.x * (sp_width/sp_width_prev);
+				  settings.strokes[index].lines[index2].end.y = value2.end.y * (sp_width/sp_width_prev);				  
+				});
+			});
+		}
+
+		$sp.attr('data-width-prev',sp_width);
+
+		$('#canvas').remove();
+		$sp.append('<canvas id="canvas"></canvas>');
+		$('#canvas').css("background-image","url('"+$sp.attr('data-bg')+"')");
+
+		$('#canvas').width(sp_width);
+		$('#canvas').height(sp_height);
+		sketchpad = new Sketchpad(settings);
+
+	}
+
+
+	$(document).ready(function() {
+		$('#undo').click(function() {
+			sketchpad.undo();
+			return false;
+		});
+		$('#save').click(function() {
+			$('#result').remove();
+			$('#container').append('<img id="result"></div>');
+			$('#result').css("background-image","url('"+$('#sketchpad').attr('data-bg')+"')");
+			$('#result').attr('src', $('#canvas').get(0).toDataURL() );
+			//console.log(sketchpad.toObject());
+			return false;
+		});
+	});
+    -->
+    </script>
+    <style type='text/css'>
+    <!--
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing:    border-box;
+        box-sizing:         border-box;
+    }
+    body {
+    	background-color:#fff;
+    }
+    #container {
+    	width:100%;
+    	padding:0px 0px;
+    	max-width:1024px;
+    	margin:0 auto;
+    	background-color:grey;
+    	min-height:1900px;
+    }
+    #sketchpad {
+    	width:100%;
+    	height:auto;
+    }
+    #canvas {
+    	background-size:cover;
+    	display:block;
+    }
+    #result {
+    	background-size:contain;
+    	width:100%;
+    }
+    #result img {
+    	display:block;
+    	width:100%;
+    }
+    -->
+    </style>
+</head>
+<body>
+
+
+	<div id="container">
+
+		<div id="sketchpad" data-bg="bg.jpg" data-ratio="0.5"></div>
+
+		<a href="#" id="undo">Rückgängig</a>
+		<a href="#" id="save">Absenden</a>
+
+	</div>
+
+</body>
+</html>
